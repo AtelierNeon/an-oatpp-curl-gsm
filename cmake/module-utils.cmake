@@ -2,7 +2,9 @@ macro(target_link_oatpp target)
 
     if(TARGET oatpp::oatpp) ## OATPP_MODULES_LOCATION == INSTALLED
 
-        message("target_link_oatpp(${target}) to installed oatpp lib")
+        if(OATPP_WITH_VERBOSE_MESSAGE)
+            message("target_link_oatpp(${target}) to installed oatpp lib")
+        endif()
 
         target_link_libraries(${target}
                 PRIVATE oatpp::oatpp
