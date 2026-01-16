@@ -18,8 +18,6 @@ add_library(${OATPP_THIS_MODULE_NAME}
         oatpp-curl/io/CurlBodyWriter.hpp
         oatpp-curl/io/CurlHeadersReader.cpp
         oatpp-curl/io/CurlHeadersReader.hpp
-        oatpp-curl/io/IOBuffer.cpp
-        oatpp-curl/io/IOBuffer.hpp
 )
 
 set_target_properties(${OATPP_THIS_MODULE_NAME} PROPERTIES

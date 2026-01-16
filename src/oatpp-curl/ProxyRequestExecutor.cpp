@@ -29,9 +29,6 @@
 #include "./io/CurlHeadersReader.hpp"
 #include "./io/CurlBodyReader.hpp"
 #include "./io/CurlBodyWriter.hpp"
-#include "./io/IOBuffer.hpp"
-#include "oatpp/core/utils/ConversionUtils.hpp"
-#include "oatpp/web/protocol/http/encoding/Chunked.hpp"
 
 #include <curl/curl.h>
 #include <chrono>
@@ -93,7 +90,7 @@ std::shared_ptr<ProxyRequestExecutor::Response> ProxyRequestExecutor::executeOnc
 
   if(body) {
     body->declareHeaders(bodyHeaders);
-    for (const auto& pair : bodyHeaders.getAll_Unsafe()) {
+    for(const auto& pair : bodyHeaders.getAll_Unsafe()) {
       headers.append(pair.first.toString(), pair.second.toString());
     }
   }
@@ -131,7 +128,7 @@ std::shared_ptr<ProxyRequestExecutor::Response> ProxyRequestExecutor::executeOnc
     }
     io::BodyOutputStream outputStream(writer, oatpp::data::stream::IOMode::BLOCKING);
 
-    curl::io::IOBuffer buffer;
+    data::buffer::IOBuffer buffer;
     data::stream::transfer(body, &outputStream, 0, buffer.getData(), buffer.getSize());
 
   }
@@ -159,7 +156,7 @@ ProxyRequestExecutor::executeOnceAsync(const String& method,
                                        const std::shared_ptr<ConnectionHandle>& connectionHandle)
 {
 
-  class ExecutorCoroutine : public oatpp::async::CoroutineWithResult<ExecutorCoroutine, const std::shared_ptr<Response> &> {
+  class ExecutorCoroutine : public oatpp::async::CoroutineWithResult<ExecutorCoroutine, const std::shared_ptr<Response>&> {
   private:
     std::shared_ptr<Body> m_body;
     std::shared_ptr<const oatpp::web::protocol::http::incoming::BodyDecoder> m_bodyDecoder;
@@ -233,7 +230,7 @@ ProxyRequestExecutor::executeOnceAsync(const String& method,
     Action act() override {
       if(m_body) {
         auto stream = std::make_shared<io::BodyOutputStream>(m_writer, oatpp::data::stream::IOMode::ASYNCHRONOUS);
-        return data::stream::transferAsync(m_body, stream, 0, std::make_shared<curl::io::IOBuffer>())
+        return data::stream::transferAsync(m_body, stream, 0, std::make_shared<data::buffer::IOBuffer>())
                 .next(yieldTo(&ExecutorCoroutine::doPerform));
       }
       return yieldTo(&ExecutorCoroutine::doPerform);

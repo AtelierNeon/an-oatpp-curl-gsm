@@ -58,7 +58,7 @@ public:
    * @param proxyUrl - proxy url for requests. Ex.: "http://127.0.0.1:8080"
    * @param verbose - `true` to print curl logs to `std::cout`.
    */
-  ProxyRequestExecutor(const oatpp::String &baseUrl, const oatpp::String &proxyUrl, bool verbose = false);
+  ProxyRequestExecutor(const oatpp::String& baseUrl, const oatpp::String& proxyUrl, bool verbose = false);
 
   /**
    * Create shared ProxyRequestExecutor.
@@ -67,7 +67,7 @@ public:
    * @param verbose - `true` to print curl logs to `std::cout`.
    * @return - `std::shared_ptr` to ProxyRequestExecutor.
    */
-  static std::shared_ptr<ProxyRequestExecutor> createShared(const oatpp::String &baseUrl, const oatpp::String &proxyUrl, bool verbose = false) {
+  static std::shared_ptr<ProxyRequestExecutor> createShared(const oatpp::String& baseUrl, const oatpp::String& proxyUrl, bool verbose = false) {
     return std::make_shared<ProxyRequestExecutor>(baseUrl, proxyUrl, verbose);
   }
 
@@ -81,13 +81,13 @@ public:
    * Connection reuse mechanism for curl ProxyRequestExecutor is **NOT IMPLEMENTED** yet.<br>
    * @return - &l:ProxyRequestExecutor::StubConnectionHandle;.
    */
-  oatpp::async::CoroutineStarterForResult<const std::shared_ptr<ConnectionHandle> &> getConnectionAsync() override;
+  oatpp::async::CoroutineStarterForResult<const std::shared_ptr<ConnectionHandle>&> getConnectionAsync() override;
 
   /**
    * Invalidate connection.
    * @param connectionHandle
    */
-  void invalidateConnection(const std::shared_ptr<ConnectionHandle> &connectionHandle) override {
+  void invalidateConnection(const std::shared_ptr<ConnectionHandle>& connectionHandle) override {
     // DO NOTHING
   }
 
@@ -100,11 +100,11 @@ public:
    * @param connectionHandle - `nullptr`. This parameter is ignored for now.
    * @return - &id:oatpp::web::protocol::http::incoming::Response;.
    */
-  std::shared_ptr<Response> executeOnce(const String &method,
-                                        const String &path,
-                                        const Headers &userDefinedHeaders,
-                                        const std::shared_ptr<Body> &body,
-                                        const std::shared_ptr<ConnectionHandle> &connectionHandle = nullptr) override;
+  std::shared_ptr<Response> executeOnce(const String& method,
+                                        const String& path,
+                                        const Headers& userDefinedHeaders,
+                                        const std::shared_ptr<Body>& body,
+                                        const std::shared_ptr<ConnectionHandle>& connectionHandle = nullptr) override;
 
   /**
    * Same as &l:ProxyRequestExecutor::execute (); but Async.
